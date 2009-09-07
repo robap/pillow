@@ -5,13 +5,13 @@ This library provides a PHP interface for the Zillow API
 
 ## Requirements
 
-PHP >= 5.2
-PHP CURL extension
+* PHP >= 5.2
+* PHP CURL extension
 
 ## Examples
 
 ### Basic Use
-<code>
+<pre>
     require '/path/to/pillow/lib/pillow.php';
 
     $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
@@ -23,11 +23,10 @@ PHP CURL extension
     } catch (Exception $e) {
         //Your code to handle exceptions
     }
-</code>
+</pre>
 
 ### Get a Zillow Zestimate
-
-<code>
+<pre>
     require '/path/to/pillow/lib/pillow.php';
 
     $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
@@ -46,10 +45,10 @@ PHP CURL extension
     } catch (Exception $e) {
         //Your code to handle exceptions
     }
-</code>
+</pre>
 
 ### Get a Zillow Chart url
-<code>
+<pre>
     require '/path/to/pillow/lib/pillow.php';
 
     $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
@@ -66,10 +65,9 @@ PHP CURL extension
     } catch (Exception $e) {
         //Your code to handle exceptions
     }
-</code>
+</pre>
 
 ## About Exceptions
-
 The Zillow API can return quite a few different error codes. This php library
 will throw an appropriate Pillow_* exception for each of these. There are alot
 (see lib/pillow/Transporter.php). You can choose to handle each of these
