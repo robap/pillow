@@ -91,7 +91,7 @@ This library provides a PHP interface for the Zillow API
             $comparables = $search[0]->getComps(2);
             echo "found comparables: ", count($comparables), "\n";
             $comp_zestimate_1 = $comparables[0]->getZestimate();
-            $comp_zestimate_2 = $comparables[0]->getZestimate();
+            $comp_zestimate_2 = $comparables[1]->getZestimate();
             echo "comp amount : ", $comp_zestimate_1->amount, "\n";
             echo "comp amount : ", $comp_zestimate_2->amount, "\n";
         } catch (Pillow_NoCompsException $e) {
