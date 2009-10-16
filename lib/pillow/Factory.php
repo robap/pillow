@@ -46,7 +46,7 @@ class Pillow_Factory
      * @param string $city_state_zip
      * @return array of Pillow_Property objects
      * @link http://www.zillow.com/howto/api/GetSearchResults.htm
-     * @throws Pillow_*Exception
+     * @throws Pillow_Exception
      */
     public function findProperties( $address, $city_state_zip )
     {
@@ -91,7 +91,7 @@ class Pillow_Factory
      * @param string $city_state_zip
      * @return array of Pillow_Property objects
      * @link http://www.zillow.com/howto/api/GetDeepSearchResults.htm
-     * @throws Pillow_*Exception
+     * @throws Pillow_Exception
      */
     public function findDeepProperties( $address, $city_state_zip )
     {
@@ -159,7 +159,7 @@ class Pillow_Factory
      * Creates a stdClass object to represent a Zestimate record
      * @param string $zpid
      * @return stdClass
-     * @throws Pillow_*Exception
+     * @throws Pillow_Exception
      */
     public function createZestimate( $zpid )
     {
@@ -198,7 +198,7 @@ class Pillow_Factory
      * @param int $height - optional
      * @param string $chartDuration - optional
      * @return stdClass
-     * @throws Pillow_*Exception
+     * @throws Pillow_Exception
      * @link http://www.zillow.com/howto/api/GetChart.htm
      */
     public function createChart( $zpid, $unit_type, $width = NULL, $height = NULL, $chartDuration = NULL )
@@ -261,7 +261,7 @@ class Pillow_Factory
                     'zipcode'   => (string) $result->address->zipcode
                 );
 
-                $ret_array[] = $this->createProperty( $args );
+                $ret_array[] = $this->_createProperty( $args );
             }
             return $ret_array;
          } catch (Exception $e) {

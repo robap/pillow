@@ -64,7 +64,7 @@ class Pillow_Transporter
 
         if( $code != '0' )
         {
-            throw $this->generateException( $code, $text, $context );
+            throw $this->generateException( $code, $text, $context, $xml );
             return;
         }
         else
@@ -89,117 +89,137 @@ class Pillow_Transporter
      * @param string $context
      * @return Pillow_*Exception
      */
-    private function generateException( $code, $text, $context )
+    private function generateException( $code, $text, $context, $xml )
     {
         switch( $code ) {
                 case '1':
-                    return new Pillow_ServerSideException($text, $code);
+                    return new Pillow_ServerSideException($text, $code, $xml);
                 case '2':
-                    return new Pillow_InvalidZwisdException($text, $code);
+                    return new Pillow_InvalidZwisdException($text, $code, $xml);
                 case '3':
-                    return new Pillow_WebServicesUnavailableException($text, $code);
+                    return new Pillow_WebServicesUnavailableException($text, $code, $xml);
                 case '4':
-                    return new Pillow_ApiCallUnavailableException($text, $code);
+                    return new Pillow_ApiCallUnavailableException($text, $code, $xml);
                 case '500':
                     switch( $context ) {
                         case 'search':
-                            return new Pillow_InvalidAddressException($text, $code);
+                            return new Pillow_InvalidAddressException($text, $code, $xml);
                         case 'zestimate':
                         case 'chart':
-                            return new Pillow_InvalidZpidException($text, $code);
+                            return new Pillow_InvalidZpidException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
                     
                 case '501':
                     switch( $context ) {
                         case 'search':
-                            return new Pillow_InvalidCityStateZipException($text, $code);
+                            return new Pillow_InvalidCityStateZipException($text, $code, $xml);
                         case 'zestimate':
-                            return new Pillow_RecordDoesNotCorrespondException($text, $code);
+                            return new Pillow_RecordDoesNotCorrespondException($text, $code, $xml);
                         case 'chart':
-                            return new Pillow_InvalidChartUnitTypeException($text, $code);
+                            return new Pillow_InvalidChartUnitTypeException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
 
                 case '502':
                     switch( $context ) {
                         case 'search':
-                            throw new Pillow_NoResultsFoundException($text, $code);
+                            throw new Pillow_NoResultsFoundException($text, $code, $xml);
                         case 'zestimate':
-                            throw new Pillow_NoZestimateAvailableException($text, $code);
+                            throw new Pillow_NoZestimateAvailableException($text, $code, $xml);
                         case 'chart':
-                            throw new Pillow_InvalidChartWidthException($text, $code);
+                            throw new Pillow_InvalidChartWidthException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
                 case '503':
                     switch( $context ) {
                         case 'search':
-                            return new Pillow_CityStateZipResolutionException($text, $code);
+                            return new Pillow_CityStateZipResolutionException($text, $code, $xml);
                         case 'comp':
-                            return new Pillow_NoCompsException($text, $code);
+                            return new Pillow_NoCompsException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
                     
                 case '504':
                     switch( $context ) {
                         case 'search':
-                            return new Pillow_NoCoverageException($text, $code);
+                            return new Pillow_NoCoverageException($text, $code, $xml);
                         case 'comp':
-                            return new Pillow_NoCompsException($text, $code);
+                            return new Pillow_NoCompsException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
                 case '505':
                     switch( $context ) {
                         case 'search':
-                            return new Pillow_TimoutException($text, $code);
+                            return new Pillow_TimoutException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
                 case '506':
                     switch( $context ) {
                         case 'search':
-                            return new Pillow_AddressTooLongException($text, $code);
+                            return new Pillow_AddressTooLongException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
                 case '507':
                     switch( $context ) {
                         case 'search':
-                            return new Pillow_NoExactMatchException($text, $code);
+                            return new Pillow_NoExactMatchException($text, $code, $xml);
                         default:
-                            return new Pillow_UnknownException($text, $code);
+                            return new Pillow_UnknownException($text, $code, $xml);
                     }
                 default:
-                    return new Pillow_UnkownServiceException($text, $code);
+                    return new Pillow_UnkownServiceException($text, $code, $xml);
         }
     }
     
 }
 
-class Pillow_ServerCommunicationError extends Exception{}
-class Pillow_ServerSideException extends Exception{}
-class Pillow_InvalidZwisdException extends Exception{}
-class Pillow_WebServicesUnavailableException extends Exception{}
-class Pillow_ApiCallUnavailableException extends Exception{}
-class Pillow_InvalidAddressException extends Exception{}
-class Pillow_InvalidCityStateZipException extends Exception{}
-class Pillow_NoResultsFoundException extends Exception{}
-class Pillow_CityStateZipResolutionException extends Exception{}
-class Pillow_NoCoverageException extends Exception{}
-class Pillow_TimoutException extends Exception{}
-class Pillow_UnkownServiceException extends Exception{}
-class Pillow_UnknownException extends Exception{}
-class Pillow_InvalidZpidException extends Exception{}
-class Pillow_RecordDoesNotCorrespondException extends Exception{}
-class Pillow_InvalidChartUnitTypeException extends Exception{}
-class Pillow_InvalidChartWidthException extends Exception{}
-class Pillow_InvalidChartHeightException extends Exception{}
-class Pillow_NoZestimateAvailableException extends Exception{}
-class Pillow_NoCompsException extends Exception{}
-class Pillow_AddressTooLongException extends Exception{}
-class Pillow_NoExactMatchException extends Exception{}
+class Pillow_Exception extends Exception
+{
+    protected $fetched_xml;
+
+    public function __construct( $text, $code, $xmlObj )
+    {
+        $this->fetched_xml = $xmlObj;
+        parent::__construct($text, $code);
+    }
+
+    /**
+     * Gets the xml returned by Zillow as SimpleXMLElement
+     * @return SimpleXMLElement
+     */
+    public function getXmlObj()
+    {
+        return $this->fetched_xml;
+    }
+}
+
+class Pillow_ServerCommunicationError extends Pillow_Exception{}
+class Pillow_ServerSideException extends Pillow_Exception{}
+class Pillow_InvalidZwisdException extends Pillow_Exception{}
+class Pillow_WebServicesUnavailableException extends Pillow_Exception{}
+class Pillow_ApiCallUnavailableException extends Pillow_Exception{}
+class Pillow_InvalidAddressException extends Pillow_Exception{}
+class Pillow_InvalidCityStateZipException extends Pillow_Exception{}
+class Pillow_NoResultsFoundException extends Pillow_Exception{}
+class Pillow_CityStateZipResolutionException extends Pillow_Exception{}
+class Pillow_NoCoverageException extends Pillow_Exception{}
+class Pillow_TimoutException extends Pillow_Exception{}
+class Pillow_UnkownServiceException extends Pillow_Exception{}
+class Pillow_UnknownException extends Pillow_Exception{}
+class Pillow_InvalidZpidException extends Pillow_Exception{}
+class Pillow_RecordDoesNotCorrespondException extends Pillow_Exception{}
+class Pillow_InvalidChartUnitTypeException extends Pillow_Exception{}
+class Pillow_InvalidChartWidthException extends Pillow_Exception{}
+class Pillow_InvalidChartHeightException extends Pillow_Exception{}
+class Pillow_NoZestimateAvailableException extends Pillow_Exception{}
+class Pillow_NoCompsException extends Pillow_Exception{}
+class Pillow_AddressTooLongException extends Pillow_Exception{}
+class Pillow_NoExactMatchException extends Pillow_Exception{}

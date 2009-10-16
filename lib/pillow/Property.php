@@ -115,7 +115,7 @@ class Pillow_Property extends Pillow_Base
      * Gets the related zestimate record (if available). Throws one of many
      * exceptions if any errors or no zesitmate is available
      * @return stdClass or void if exception
-     * @throws Pillow_*Exception
+     * @throws Pillow_Exception
      */
     public function getZestimate()
     {
@@ -132,7 +132,7 @@ class Pillow_Property extends Pillow_Base
      * Gets the related chart record (if available). Throws one of many
      * exceptions if any errors or no chart is available
      * @return stdClass or void if exception
-     * @throws Pillow_*Exception
+     * @throws Pillow_Exception
      */
     public function getChart( $unit_type, $width = NULL, $height = NULL, $chartDuration = NULL )
     {
@@ -149,7 +149,7 @@ class Pillow_Property extends Pillow_Base
      * Attempts to get related comps for property
      * @param int $count
      * @return array of Pillow_Property objects
-     * @throws Pillow_*Exception
+     * @throws Pillow_Exception
      */
     public function getComps( $count )
     {
