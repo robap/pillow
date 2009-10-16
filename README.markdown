@@ -111,7 +111,11 @@ php's Exception class, you can catch just the Exception. This will make your
 code simpler.
 
 The exception objects contain useful information for debugging. For example:
+
 $e->getCode(); //Actual status code returned by Zillow service
+
 $e->getMessage(); //Actual message returned by Zillow service
+
 $e->getXmlObject(); //The actual Zillow returned xml as a SimpleXMLElement object
+
 print_r($e); //Dump the whole Exception object
