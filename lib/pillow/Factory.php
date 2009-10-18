@@ -270,6 +270,57 @@ class Pillow_Factory
     }
 
     /**
+     * Finds and returns array of Pillow_Property objects
+     * @param string $zpid
+     * @param int $count
+     * @return array
+     * @link http://www.zillow.com/howto/api/GetComps.htm
+     */
+    public function findDeepComps( $zpid, $count )
+    {
+        $trans = $this->createTransporter();
+
+        $uri = 'http://www.zillow.com/webservice/GetDeepComps.htm?'
+             . 'zws-id='    . $this->_zws_id . '&'
+             . 'zpid='      . $zpid . '&'
+             . 'count='     . $count
+             ;
+
+        try {
+            $xml = $trans->get( $uri, 'comp' );
+
+            $ret_array = array();
+            foreach ( $xml->response->properties->comparables->comp as $result )
+            {
+                $args = array(
+                    'zpid'          => (string) $result->zpid,
+                    'links'         => $this->_createStdObject( $result->links ),
+                    'city'          => (string) $result->address->city,
+                    'latitude'      => (string) $result->address->latitude,
+                    'longitude'     => (string) $result->address->longitude,
+                    'state'         => (string) $result->address->state,
+                    'street'        => (string) $result->address->street,
+                    'zipcode'       => (string) $result->address->zipcode,
+                    'fipsCounty'    => (string) $result->FIPScounty,
+                    'useCode'       => (string) $result->useCode,
+                    'yearBuilt'     => (string) $result->yearBuilt,
+                    'lotSizeSqFt'   => (string) $result->lotSizeSqFt,
+                    'finishedSqFt'  => (string) $result->finishedSqFt,
+                    'bathrooms'     => (string) $result->bathrooms,
+                    'bedrooms'      => (string) $result->bedrooms,
+                    'lastSoldDate'  => (string) $result->lastSoldDate,
+                    'lastSoldPrice' => (string) $result->lastSoldPrice
+                );
+
+                $ret_array[] = $this->_createProperty( $args );
+            }
+            return $ret_array;
+         } catch (Exception $e) {
+            throw $e;
+         }
+    }
+
+    /**
      * Converts a simpleXMLObject to either a string or stdClass object
      * @param simpleXMLObject $xml_obj
      * @return mixed

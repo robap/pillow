@@ -161,6 +161,23 @@ class Pillow_Property extends Pillow_Base
             return;
         }
     }
+
+    /**
+     * Attempts to get related deep comps for property
+     * @param int $count
+     * @return array of Pillow_Property objects
+     * @throws Pillow_Exception
+     */
+    public function getDeepComps( $count )
+    {
+        try {
+            $c = $this->_factory->findDeepComps( $this->zpid, $count );
+            return $c;
+        } catch (Exception $e) {
+            throw $e;
+            return;
+        }
+    }
 }
 
 ?>
