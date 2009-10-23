@@ -112,9 +112,17 @@ class Pillow_Property extends Pillow_Base
     public $lastSoldPrice;
 
     /**
+     * The zestimate which accompanies the property
+     * @var Pillow_Zestimate $zestimate
+     */
+    public $zestimate;
+
+    /**
      * Gets the related zestimate record (if available). Throws one of many
-     * exceptions if any errors or no zesitmate is available
-     * @return stdClass or void if exception
+     * exceptions if any errors or no zesitmate is available. This method makes
+     * an http request. Unless you have a very good reason to use this method,
+     * use the zestimate property instead
+     * @return Pillow_Zestimate or void if exception
      * @throws Pillow_Exception
      */
     public function getZestimate()
@@ -131,7 +139,7 @@ class Pillow_Property extends Pillow_Base
     /**
      * Gets the related chart record (if available). Throws one of many
      * exceptions if any errors or no chart is available
-     * @return stdClass or void if exception
+     * @return Pillow_Chart or void if exception
      * @throws Pillow_Exception
      */
     public function getChart( $unit_type, $width = NULL, $height = NULL, $chartDuration = NULL )

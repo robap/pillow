@@ -97,7 +97,6 @@ class Pillow_Factory
     {
         $trans = $this->createTransporter();
         
-        //$uri = 'http://www.zillow.com/webservice/GetSearchResults.htm?'
         $uri = 'http://www.zillow.com/webservice/GetDeepSearchResults.htm?'
               . 'zws-id='       . $this->_zws_id        . '&'
               . 'address='      . urlencode( $address ) . '&'
@@ -127,9 +126,10 @@ class Pillow_Factory
                     'bathrooms'     => (string) $result->bathrooms,
                     'bedrooms'      => (string) $result->bedrooms,
                     'lastSoldDate'  => (string) $result->lastSoldDate,
-                    'lastSoldPrice' => (string) $result->lastSoldPrice
+                    'lastSoldPrice' => (string) $result->lastSoldPrice,
+                    'zestimate'     => $this->_createZestimate($result->zestimate)
                 );
-
+                
                 $ret_array[] = $this->_createProperty( $args );
             }
         } catch (Exception $e) {
@@ -148,7 +148,7 @@ class Pillow_Factory
     {
         $property = new Pillow_Property();
         $property->setFactory($this);
-        foreach( $vars as $key  => $value )
+        foreach( $vars as $key => $value )
         {
             $property->$key = $value;
         }
@@ -156,7 +156,7 @@ class Pillow_Factory
     }
 
     /**
-     * Creates a stdClass object to represent a Zestimate record
+     * Creates a Pillow_Zestimate object based on supplied zpid
      * @param string $zpid
      * @return stdClass
      * @throws Pillow_Exception
@@ -172,22 +172,30 @@ class Pillow_Factory
          try {
             $xml = $trans->get( $uri, 'zestimate' );
 
-            $z = $xml->response->zestimate;
-
-            $estimate = new stdClass;
-
-            $estimate->amount                = (string) $z->amount;
-            $estimate->lastUpdated           = (string) $z->{'last-updated'};
-            $estimate->valueChange           = (string) $z->valueChange;
-            $estimate->valuationRangeLow     = (string) $z->valuationRange->low;
-            $estimate->valuationRangeHigh    = (string) $z->valuationRange->high;
-            $estimate->percentile            = (string) $z->percentile;
-            
-            return $estimate;
+            return $this->_createZestimate( $xml->response->zestimate );
             
          } catch (Exception $e) {
             throw $e;
          }
+    }
+
+    /**
+     * Creates a zestimate object from supplied xml object
+     * @param simpleXmlObje $xml
+     * @return Pillow_Zestimate
+     */
+    private function _createZestimate( $xml )
+    {
+        $estimate = new Pillow_Zestimate;
+
+        $estimate->amount                = (string) $xml->amount;
+        $estimate->lastUpdated           = (string) $xml->{'last-updated'};
+        $estimate->valueChange           = (string) $xml->valueChange;
+        $estimate->valuationRange->low   = (string) $xml->valuationRange->low;
+        $estimate->valuationRange->high  = (string) $xml->valuationRange->high;
+        $estimate->percentile            = (string) $xml->percentile;
+
+        return $estimate;
     }
 
     /**
@@ -197,7 +205,7 @@ class Pillow_Factory
      * @param int $width - optional
      * @param int $height - optional
      * @param string $chartDuration - optional
-     * @return stdClass
+     * @return Pillow_Chart
      * @throws Pillow_Exception
      * @link http://www.zillow.com/howto/api/GetChart.htm
      */
@@ -217,8 +225,9 @@ class Pillow_Factory
         try {
             $xml = $trans->get( $uri, 'chart' );
 
-            $chart = new stdClass;
+            $chart = new Pillow_Chart;
             $chart->url = $xml->response->url;
+            $chart->graphsAndData = $xml->response->graphsanddata;
 
             return $chart;
             
@@ -258,7 +267,8 @@ class Pillow_Factory
                     'longitude' => (string) $result->address->longitude,
                     'state'     => (string) $result->address->state,
                     'street'    => (string) $result->address->street,
-                    'zipcode'   => (string) $result->address->zipcode
+                    'zipcode'   => (string) $result->address->zipcode,
+                    'zestimate' => $this->_createZestimate($result->zestimate)
                 );
 
                 $ret_array[] = $this->_createProperty( $args );
@@ -274,7 +284,7 @@ class Pillow_Factory
      * @param string $zpid
      * @param int $count
      * @return array
-     * @link http://www.zillow.com/howto/api/GetComps.htm
+     * @link http://www.zillow.com/howto/api/GetDeepComps.htm
      */
     public function findDeepComps( $zpid, $count )
     {
@@ -309,7 +319,8 @@ class Pillow_Factory
                     'bathrooms'     => (string) $result->bathrooms,
                     'bedrooms'      => (string) $result->bedrooms,
                     'lastSoldDate'  => (string) $result->lastSoldDate,
-                    'lastSoldPrice' => (string) $result->lastSoldPrice
+                    'lastSoldPrice' => (string) $result->lastSoldPrice,
+                    'zestimate'     => $this->_createZestimate($result->zestimate)
                 );
 
                 $ret_array[] = $this->_createProperty( $args );

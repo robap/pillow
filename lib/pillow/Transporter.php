@@ -140,6 +140,8 @@ class Pillow_Transporter
                             return new Pillow_CityStateZipResolutionException($text, $code, $xml);
                         case 'comp':
                             return new Pillow_NoCompsException($text, $code, $xml);
+                        case 'chart':
+                            return new Pillow_ChartHeightInvalid($text, $code, $xml);
                         default:
                             return new Pillow_UnknownException($text, $code, $xml);
                     }
@@ -168,6 +170,7 @@ class Pillow_Transporter
                             return new Pillow_UnknownException($text, $code, $xml);
                     }
                 case '507':
+                case '508': //Undocumented Code
                     switch( $context ) {
                         case 'search':
                             return new Pillow_NoExactMatchException($text, $code, $xml);
@@ -223,3 +226,4 @@ class Pillow_NoZestimateAvailableException extends Pillow_Exception{}
 class Pillow_NoCompsException extends Pillow_Exception{}
 class Pillow_AddressTooLongException extends Pillow_Exception{}
 class Pillow_NoExactMatchException extends Pillow_Exception{}
+class Pillow_ChartHeightInvalid extends Pillow_Exception{}

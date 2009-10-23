@@ -39,14 +39,7 @@ This library provides a PHP interface for the Zillow API
 
     if( count($search) > 0 )
     {
-        try {
-            $z = $search[0]->getZestimate();
-            echo "zestimate value: ", $z->amount;
-        } catch (Pillow_NoZestimateAvailableException $e) {
-            //Your code to handle exceptions
-        } catch (Exception $e) {
-            //Your code to handle exceptions
-        }
+        echo "zestimate value: ", $search[0]->zestimate->amount;
     }
 </pre>
 
