@@ -16,12 +16,13 @@ This library provides a PHP interface for the Zillow API
 
     $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
 
+    //Third argument specifies regular or Deep Property search
     $property = $factory->findExactProperty($address, $csz, TRUE);
 
-    echo "lat : "   , $property->latitude   , "<br />";
-    echo "lon : "   , $property->longitude  , "<br />";
-    echo "bath : "  , $property->bathrooms  , "<br />";
-    echo "beds : "  , $property->bedrooms   , "<br />";
+    echo "lat : "   , $property->latitude   , "&lt;br /&gt;";
+    echo "lon : "   , $property->longitude  , "&lt;br /&gt;";
+    echo "bath : "  , $property->bathrooms  , "&lt;br /&gt;";
+    echo "beds : "  , $property->bedrooms   , "&lt;br /&gt;";
 </pre>
 
 ### Get Property - with error handling
