@@ -80,8 +80,35 @@ class Pillow_Factory
         } catch (Exception $e) {
             throw $e;
         }
+    }
 
-        return $ret_array;
+    /**
+     * Attempts to find an exact Property match for an address
+     * @param string $address
+     * @param string $city_state_zip
+     * @param boolean $deep - get deep property (default FALSE)
+     * @link http://www.zillow.com/howto/api/GetSearchResults.htm
+     * @link http://www.zillow.com/howto/api/GetDeepSearchResults.htm
+     * @return Pillow_Property
+     */
+    public function findExactProperty( $address, $city_state_zip, $deep = FALSE )
+    {
+        try {
+
+            if( TRUE === $deep )
+                $results = $this->findDeepProperties( $address, $city_state_zip );
+            else
+                $results = $this->findProperties( $address, $city_state_zip );
+
+            if( count($results) > 0 )
+            {
+                return $results[0];
+            }
+
+        } catch ( Exception $e ) {
+            //Do nothing with caught exception
+        }
+        return $this->_createProperty( array() );
     }
 
     /**
@@ -132,11 +159,10 @@ class Pillow_Factory
                 
                 $ret_array[] = $this->_createProperty( $args );
             }
+            return $ret_array;
         } catch (Exception $e) {
             throw $e;
         }
-
-        return $ret_array;
     }
 
     /**
@@ -158,7 +184,8 @@ class Pillow_Factory
     /**
      * Creates a Pillow_Zestimate object based on supplied zpid
      * @param string $zpid
-     * @return stdClass
+     * @return Pillow_Zestimate
+     * @link http://www.zillow.com/howto/api/GetZestimate.htm
      * @throws Pillow_Exception
      */
     public function createZestimate( $zpid )
@@ -181,7 +208,7 @@ class Pillow_Factory
 
     /**
      * Creates a zestimate object from supplied xml object
-     * @param simpleXmlObje $xml
+     * @param simpleXmlObject $xml
      * @return Pillow_Zestimate
      */
     private function _createZestimate( $xml )
@@ -247,6 +274,8 @@ class Pillow_Factory
     {
         $trans = $this->createTransporter();
 
+        $ret_array = array();
+
         $uri = 'http://www.zillow.com/webservice/GetComps.htm?'
              . 'zws-id='    . $this->_zws_id . '&'
              . 'zpid='      . $zpid . '&'
@@ -256,7 +285,6 @@ class Pillow_Factory
         try {
             $xml = $trans->get( $uri, 'comp' );
 
-            $ret_array = array();
             foreach ( $xml->response->properties->comparables->comp as $result )
             {
                 $args = array(
@@ -290,6 +318,8 @@ class Pillow_Factory
     {
         $trans = $this->createTransporter();
 
+        $ret_array = array();
+
         $uri = 'http://www.zillow.com/webservice/GetDeepComps.htm?'
              . 'zws-id='    . $this->_zws_id . '&'
              . 'zpid='      . $zpid . '&'
@@ -299,7 +329,6 @@ class Pillow_Factory
         try {
             $xml = $trans->get( $uri, 'comp' );
 
-            $ret_array = array();
             foreach ( $xml->response->properties->comparables->comp as $result )
             {
                 $args = array(
@@ -356,5 +385,3 @@ class Pillow_Factory
         return $obj;
     }
 }
-
-?>

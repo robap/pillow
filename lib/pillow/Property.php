@@ -132,7 +132,6 @@ class Pillow_Property extends Pillow_Base
             return $z;
         } catch (Exception $e) {
             throw $e;
-            return;
         }
     }
 
@@ -149,7 +148,6 @@ class Pillow_Property extends Pillow_Base
             return $c;
         } catch (Exception $e) {
             throw $e;
-            return;
         }
     }
 
@@ -166,7 +164,6 @@ class Pillow_Property extends Pillow_Base
             return $c;
         } catch (Exception $e) {
             throw $e;
-            return;
         }
     }
 
@@ -183,9 +180,6 @@ class Pillow_Property extends Pillow_Base
             return $c;
         } catch (Exception $e) {
             throw $e;
-            return;
         }
     }
 }
-
-?>

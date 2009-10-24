@@ -40,4 +40,3 @@ class Pillow_Zestimate extends Pillow_Base
     }
 }
 
-?>

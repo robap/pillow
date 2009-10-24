@@ -15,4 +15,3 @@ class Pillow_Chart extends Pillow_Base
     public $graphsAndData;
 }
 
-?>

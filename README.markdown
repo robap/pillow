@@ -10,19 +10,39 @@ This library provides a PHP interface for the Zillow API
 
 ## Examples
 
-### Basic Use
+### Get Property - Basic Use
 <pre>
     require '/path/to/pillow/lib/pillow.php';
 
     $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
 
+    $property = $factory->findExactProperty($address, $csz, TRUE);
+
+    echo "lat : "   , $property->latitude   , "<br />";
+    echo "lon : "   , $property->longitude  , "<br />";
+    echo "bath : "  , $property->bathrooms  , "<br />";
+    echo "beds : "  , $property->bedrooms   , "<br />";
+</pre>
+
+### Get Property - with error handling
+<pre>
+
+    require '/path/to/pillow/lib/pillow.php';
+
+    $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
+
     try {
+
         //$search will be an array with 0 or more Pillow_Property objects. Exact
         // matches will be found at $search[0]
         $search = $pf->findDeepProperties( 'some address', 'city state or zip' );
+
     } catch (Exception $e) {
+        
         //Your code to handle exceptions
+
     }
+
 </pre>
 
 ### Get a Zillow Zestimate
@@ -32,15 +52,21 @@ This library provides a PHP interface for the Zillow API
     $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
 
     try {
+
         $search = $pf->findDeepProperties( 'some address', 'city state or zip' );
+
+        if( count($search) > 0 )
+        {
+            echo "zestimate value: ", $search[0]->zestimate->amount;
+        }
+
     } catch (Exception $e) {
+
         //Your code to handle exceptions
+
     }
 
-    if( count($search) > 0 )
-    {
-        echo "zestimate value: ", $search[0]->zestimate->amount;
-    }
+    
 </pre>
 
 ### Get a Zillow Chart url
@@ -58,10 +84,14 @@ This library provides a PHP interface for the Zillow API
     if( count($search) > 0 )
     {
         try {
+
             $chart = $search[0]->getChart( Pillow_Property::CHART_UNIT_DOLLAR );
             echo "chart url: ", $chart->url, "\n";
+
         } catch (Exception $e) {
+
             //Your code to handle exceptions
+
         }
     }
 </pre>
@@ -73,24 +103,35 @@ This library provides a PHP interface for the Zillow API
     $pf = new Pillow_Factory( 'your zws id provided by Zillow' );
 
     try {
+
         $search = $pf->findDeepProperties( 'some address', 'city state or zip' );
+
     } catch (Exception $e) {
+
         //Your code to handle exceptions
+
     }
 
     if( count($search) > 0 )
     {
         try {
-            $comparables = $search[0]->getComps(2);
-            echo "found comparables: ", count($comparables), "\n";
-            $comp_zestimate_1 = $comparables[0]->getZestimate();
-            $comp_zestimate_2 = $comparables[1]->getZestimate();
-            echo "comp amount : ", $comp_zestimate_1->amount, "\n";
-            echo "comp amount : ", $comp_zestimate_2->amount, "\n";
+
+            $comparables = $search[0]->getDeepComps(2);
+
+            foreach( $comparables as $comparable )
+            {
+                echo "comp bath : ", $comparable->bathrooms, "\n";
+                echo "comp zestimate : ", $comparable->zestimate->amount, "\n";
+            }
+
         } catch (Pillow_NoCompsException $e) {
+
             echo "no comps for this address\n";
+
         } catch (Exception $e) {
+
             print_r($e);
+
         }
     }
 </pre>
