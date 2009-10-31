@@ -21,7 +21,14 @@ class Pillow_Base
         $this->_factory = $factory;
     }
 
-    
+    /**
+     * Gets the factory object
+     * @return Pillow_Factory
+     */
+    public function getFactory()
+    {
+        return $this->_factory;
+    }
 }
 
 

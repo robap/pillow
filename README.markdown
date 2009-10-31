@@ -1,4 +1,4 @@
-# Pillow - PHP client for the Zillow API
+# Pillow - Zillow PHP client
 
 This library provides a PHP interface for the Zillow API
 (see: http://www.zillow.com/howto/api/APIOverview.htm)
