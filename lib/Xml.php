@@ -20,6 +20,6 @@ class Xml
       return '';
     }
     
-    return (string) $el[0];
+    return trim((string) $el[0]);
   }
 }
