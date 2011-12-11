@@ -7,8 +7,6 @@
 
 namespace Pillow;
 
-use \ArrayObject;
-
 class Property
 {
   const CHART_UNIT_DOLLAR = 'dollar';
