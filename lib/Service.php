@@ -35,7 +35,7 @@ class Service
    *
    * @param string $address
    * @param string $cityStateZip
-   * @return type 
+   * @return SearchResults 
    */
   public function getSearchResults($address, $cityStateZip) {
     $url = '/webservice/GetSearchResults.htm?'

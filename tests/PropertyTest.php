@@ -18,7 +18,8 @@ class PropertyTest extends PHPUnit_Framework_TestCase
    */
   public function mapsCorrectly() {
     $xml = simplexml_load_file(__DIR__ .'/responses/search_results.xml');
-    $prop = Property::createFromXml($xml);
+    $results = $xml->xpath('//results[1]');
+    $prop = Property::createFromXml($results[0]);
     
     $this->assertEquals('48749425', $prop->zpid);
     
@@ -35,5 +36,7 @@ class PropertyTest extends PHPUnit_Framework_TestCase
     $this->assertEquals('http://www.zillow.com/homes/map/48749425_zpid/', $prop->links->mapthishome);
     $this->assertEquals('http://www.zillow.com/myestimator/Edit.htm?zprop=48749425', $prop->links->myestimator);
     $this->assertEquals('http://www.zillow.com/homes/comps/48749425_zpid/', $prop->links->comparables);
+    
+    $this->assertInstanceOf('\Pillow\Zestimate', $prop->zestimate);
   }
 }

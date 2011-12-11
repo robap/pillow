@@ -118,7 +118,7 @@ class Property
 
   /**
    * The zestimate which accompanies the property
-   * @var Pillow_Zestimate $zestimate
+   * @var Zestimate $zestimate
    */
   public $zestimate;
   
@@ -138,6 +138,7 @@ class Property
     $prop->latitude = Xml::xstring($xml, '//result/address/latitude');
     $prop->longitude = Xml::xstring($xml, '//result/address/longitude');
     $prop->links = Links::createFromXml($xml);
+    $prop->zestimate = Zestimate::createFromXml($xml);
     
     return $prop;
   }
