@@ -17,7 +17,7 @@ class SearchResults implements Iterator, ArrayAccess
 {
   /**
    *
-   * @var array[int]SearchResult 
+   * @var array[int]Property 
    */
   private $properties;
   

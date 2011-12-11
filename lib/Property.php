@@ -22,7 +22,7 @@ class Property
 
   /**
    * Group of zillow links for the property
-   * @var stdClass $links
+   * @var Links $links
    */
   public $links;
 
@@ -137,13 +137,7 @@ class Property
     $prop->state = Xml::xstring($xml, '//result/address/state');
     $prop->latitude = Xml::xstring($xml, '//result/address/latitude');
     $prop->longitude = Xml::xstring($xml, '//result/address/longitude');
-    $prop->links = new ArrayObject(array(
-        'homedetails' => Xml::xstring($xml, '//result/links/homedetails'),
-        'graphsanddata' => Xml::xstring($xml, '//result/links/graphsanddata'),
-        'mapthishome' => Xml::xstring($xml, '//result/links/mapthishome'),
-        'myestimator' => Xml::xstring($xml, '//result/links/myestimator'),
-        'comparables' => Xml::xstring($xml, '//result/links/comparables'),
-    ), ArrayObject::ARRAY_AS_PROPS);
+    $prop->links = Links::createFromXml($xml);
     
     return $prop;
   }
