@@ -3,7 +3,7 @@
 This file is Zillow's own example: http://www.zillow.com/howto/api/GetSearchResults.htm
 but modified because it does not parse w/o errors
 -->
-<SearchResults:searchresults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zillow.com/static/xsd/SearchResults.xsd http://www.zillowstatic.com/vstatic/add336b3059b370b1e92f5f85070bf97/static/xsd/SearchResults.xsd" xmlns:SearchResults="http://www.zillow.com/static/xsd/SearchResults.xsd">
+<SearchResults:searchresults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zillow.com/static/xsd/SearchResults.xsd" xmlns:SearchResults="http://www.zillow.com/static/xsd/SearchResults.xsd">
   <request>
     <address>2114 Bigelow Ave</address>
     <citystatezip>Seattle, WA</citystatezip>

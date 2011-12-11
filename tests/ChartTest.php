@@ -1,35 +1,29 @@
 <?php
-require_once('PHPUnit/Framework.php');
-include_once(dirname(__FILE__) . '/../lib/pillow/Base.php');
-include_once(dirname(__FILE__) . '/../lib/pillow/Chart.php');
+/**
+ * @author Rob Apodaca <rob.apodaca@gmail.com>
+ * @copyright Copyright (c) 2011, Rob Apodaca
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 
+require __DIR__ . '/../lib/Autoloader.php';
+
+use Pillow\Chart;
 
 class ChartTest extends PHPUnit_Framework_TestCase
 {
-    public $chart;
+    /**
+   * createFromXml
+   * 
+   * @test
+   */
+  public function mapsCorrectly() {
+    $xml = simplexml_load_file(__DIR__ .'/responses/chart.xml');
+    $chart = Chart::createFromXml($xml);
     
-    public function setUp()
-    {
-        $this->chart = new Pillow_Chart;
-
-        $this->chart->url = 'url';
-        $this->chart->graphsAndData = 'graphsAndData';
-    }
-
-    public function testChartCreate()
-    {
-        $this->assertTrue('Pillow_Chart' == get_class($this->chart));
-    }
-
-    public function testUrl()
-    {
-        $this->assertSame('url', $this->chart->url);
-    }
-
-    public function testGraphsAndData()
-    {
-        $this->assertSame('graphsAndData', $this->chart->graphsAndData);
-    }
+    $this->assertEquals('300', $chart->width);
+    $this->assertEquals('150', $chart->height);
+    $this->assertEquals('percent', $chart->unitType);
+    
+    $this->assertEquals('http://example.com', $chart->url);
+  }
 }
-
-?>
