@@ -5,7 +5,7 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require __DIR__ . '/../lib/Autoloader.php';
+require_once __DIR__ . '/../lib/Autoloader.php';
 
 use Pillow\Zestimate;
 
