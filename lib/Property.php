@@ -125,6 +125,12 @@ class Property
   
   /**
    *
+   * @var Comps
+   */
+  public $comps;
+  
+  /**
+   *
    * @param SimpleXMLElement $xml
    * @param Service $service
    * @return Property 
@@ -132,13 +138,13 @@ class Property
   public static function createFromXml($xml, $service) {
     $prop = new Property();
     
-    $prop->zpid = Xml::xstring($xml, '//zpid');
-    $prop->street = Xml::xstring($xml, '//address/street');
-    $prop->zipcode = Xml::xstring($xml, '//address/zipcode');
-    $prop->city = Xml::xstring($xml, '//address/city');
-    $prop->state = Xml::xstring($xml, '//address/state');
-    $prop->latitude = Xml::xstring($xml, '//address/latitude');
-    $prop->longitude = Xml::xstring($xml, '//address/longitude');
+    $prop->zpid = Xml::xstring($xml, './/zpid');
+    $prop->street = Xml::xstring($xml, './/address/street');
+    $prop->zipcode = Xml::xstring($xml, './/address/zipcode');
+    $prop->city = Xml::xstring($xml, './/address/city');
+    $prop->state = Xml::xstring($xml, './/address/state');
+    $prop->latitude = Xml::xstring($xml, './/address/latitude');
+    $prop->longitude = Xml::xstring($xml, './/address/longitude');
     $prop->links = Links::createFromXml($xml);
     $prop->zestimate = Zestimate::createFromXml($xml);
     
@@ -148,6 +154,11 @@ class Property
         Chart::getDefaultHeight(), 
         Chart::getDefaultUnitType(), 
         Chart::getDefaultDuration()
+    ));
+    
+    $prop->comps = new Proxy($service, 'getComps', array(
+        $prop->zpid, 
+        Comps::getDefaultCompCount()
     ));
     
     return $prop;

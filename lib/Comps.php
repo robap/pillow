@@ -12,6 +12,8 @@ use \SimpleXMLElement;
 class Comps extends ResultSet
 {
   
+  private static $defaultCompCount = 2;
+  
   /**
    *
    * @return Property 
@@ -24,6 +26,22 @@ class Comps extends ResultSet
     } else {
       return $current;
     }
+  }
+  
+  /**
+   *
+   * @param number $count 
+   */
+  public static function setDefaultCompCount($count) {
+    self::$defaultCompCount = $count;
+  }
+  
+  /**
+   *
+   * @return number 
+   */
+  public static function getDefaultCompCount() {
+    return self::$defaultCompCount;
   }
   
   /**

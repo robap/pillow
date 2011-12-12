@@ -86,10 +86,10 @@ class Chart
   public static function createFromXml($xml) {
     $c = new Chart();
     
-    $c->width = Xml::xstring($xml, '//request/width');
-    $c->height = Xml::xstring($xml, '//request/height');
-    $c->unitType = Xml::xstring($xml, '//request/unit-type');
-    $c->url = Xml::xstring($xml, '//response/url');
+    $c->width = Xml::xstring($xml, './/request/width');
+    $c->height = Xml::xstring($xml, './/request/height');
+    $c->unitType = Xml::xstring($xml, './/request/unit-type');
+    $c->url = Xml::xstring($xml, './/response/url');
     
     return $c;
   }

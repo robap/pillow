@@ -33,12 +33,11 @@ class ResultSet implements Iterator, ArrayAccess
    * @return mixed false if none exist 
    */
   public function current() {
-    return $this->results[$this->key];
-//    if(isset($this->results[$this->key])) {
-//      return $this->results[$this->key];
-//    } else {
-//      return false;
-//    }
+    if(isset($this->results[$this->key])) {
+      return $this->results[$this->key];
+    } else {
+      return false;
+    }
   }
 
   public function key() {

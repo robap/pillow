@@ -16,8 +16,8 @@ class Range
   public static function createFromXml($xml) {
     $r = new Range;
     
-    $r->low = Xml::xstring($xml, '//zestimate/valuationRange/low');
-    $r->high = Xml::xstring($xml, '//zestimate/valuationRange/high');
+    $r->low = Xml::xstring($xml, './/zestimate/valuationRange/low');
+    $r->high = Xml::xstring($xml, './/zestimate/valuationRange/high');
     
     return $r;
   }

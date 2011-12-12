@@ -43,10 +43,10 @@ class Zestimate
   {
       $z = new Zestimate();
       
-      $z->amount = Xml::xstring($xml, '//zestimate/amount');
-      $z->lastUpdated = new Date(Xml::xstring($xml, '//zestimate/last-updated'));
-      $z->thirtyDayChange = Xml::xstring($xml, '//zestimate/valueChange[@duration="30"]');
-      $z->percentile = Xml::xstring($xml, '//zestimate/percentile');
+      $z->amount = Xml::xstring($xml, './/zestimate/amount');
+      $z->lastUpdated = new Date(Xml::xstring($xml, './/zestimate/last-updated'));
+      $z->thirtyDayChange = Xml::xstring($xml, './/zestimate/valueChange[@duration="30"]');
+      $z->percentile = Xml::xstring($xml, './/zestimate/percentile');
       $z->range = Range::createFromXml($xml);
       
       return $z;
