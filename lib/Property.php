@@ -132,13 +132,13 @@ class Property
   public static function createFromXml($xml, $service) {
     $prop = new Property();
     
-    $prop->zpid = Xml::xstring($xml, '//result/zpid');
-    $prop->street = Xml::xstring($xml, '//result/address/street');
-    $prop->zipcode = Xml::xstring($xml, '//result/address/zipcode');
-    $prop->city = Xml::xstring($xml, '//result/address/city');
-    $prop->state = Xml::xstring($xml, '//result/address/state');
-    $prop->latitude = Xml::xstring($xml, '//result/address/latitude');
-    $prop->longitude = Xml::xstring($xml, '//result/address/longitude');
+    $prop->zpid = Xml::xstring($xml, '//zpid');
+    $prop->street = Xml::xstring($xml, '//address/street');
+    $prop->zipcode = Xml::xstring($xml, '//address/zipcode');
+    $prop->city = Xml::xstring($xml, '//address/city');
+    $prop->state = Xml::xstring($xml, '//address/state');
+    $prop->latitude = Xml::xstring($xml, '//address/latitude');
+    $prop->longitude = Xml::xstring($xml, '//address/longitude');
     $prop->links = Links::createFromXml($xml);
     $prop->zestimate = Zestimate::createFromXml($xml);
     

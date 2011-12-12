@@ -11,9 +11,11 @@ use Pillow\Service;
 
 class ServiceTest extends PHPUnit_Framework_TestCase
 {
+  public $service;
+  
+  public $mockHttpClient;
+  
   public function setUp() {
-    
-    
     $this->mockHttpClient = $this->getMock('\Pillow\HttpClient');
     $this->service = new Service('foo', $this->mockHttpClient);
     
@@ -31,9 +33,9 @@ class ServiceTest extends PHPUnit_Framework_TestCase
     
     $response = simplexml_load_string(file_get_contents(__DIR__ .'/responses/search_results.xml'));
     $this->mockHttpClient->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo($url))
-            ->will($this->returnValue($response));
+         ->method('get')
+         ->with($this->equalTo($url))
+         ->will($this->returnValue($response));
     
     $results = $this->service->getSearchResults($address, $zip);
     
@@ -55,12 +57,31 @@ class ServiceTest extends PHPUnit_Framework_TestCase
     $url = "/webservice/GetChart.htm?zws-id=foo&zpid=$zpid&unit-type=$unitType&width=$width&height=$height&chartDuration=$chartDuration";
     $response = simplexml_load_string(file_get_contents(__DIR__ .'/responses/chart.xml'));
     $this->mockHttpClient->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo($url))
-            ->will($this->returnValue($response));
+         ->method('get')
+         ->with($this->equalTo($url))
+         ->will($this->returnValue($response));
     
     $chart = $this->service->getChart($zpid, $width, $height, $unitType, $chartDuration);
     
     $this->assertInstanceOf('\Pillow\Chart', $chart);
+  }
+  
+  /**
+   * getComps
+   * 
+   * @test
+   */
+  public function createsComps() {
+    $zpid = 'zpid';
+    $count = 5;
+    $url = "/webservice/GetComps.htm?zws-id=foo&zpid=$zpid&count=$count";
+    $response = simplexml_load_string(file_get_contents(__DIR__ .'/responses/comps.xml'));
+    $this->mockHttpClient->expects($this->once())
+         ->method('get')
+         ->with($this->equalTo($url))
+         ->will($this->returnValue($response));
+    
+    $comps = $this->service->getComps($zpid, $count);
+    $this->assertCount($count, $comps);
   }
 }

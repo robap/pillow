@@ -39,7 +39,8 @@ class Service
   }
   
   /**
-   *
+   * Gets Search Result http://www.zillow.com/howto/api/GetSearchResults.htm
+   * 
    * @param string $address
    * @param string $cityStateZip
    * @return SearchResults 
@@ -54,7 +55,8 @@ class Service
   }
   
   /**
-   *
+   * Gets Chart http://www.zillow.com/howto/api/GetChart.htm
+   * 
    * @param string $zpid
    * @param number $width
    * @param number $height
@@ -64,7 +66,7 @@ class Service
    */
   public function getChart($zpid, $width, $height, $unitType, $chartDuration) {
     $url = '/webservice/GetChart.htm?'
-         . 'zws-id='       . $this->zwsId . '&'
+         . 'zws-id='         . $this->zwsId . '&'
          . 'zpid='           . $zpid . '&'
          . 'unit-type='      . $unitType . '&'
          . 'width='          . $width . '&'
@@ -74,6 +76,30 @@ class Service
     return $this->fetch($url, 'Pillow\Chart');
   }
   
+  /**
+   * Gets Comparables http://www.zillow.com/howto/api/GetComps.htm
+   * 
+   * @param string $zpid
+   * @param number $count
+   * @return Comps
+   */
+  public function getComps($zpid, $count) {
+    $url = '/webservice/GetComps.htm?'
+         . 'zws-id='    . $this->zwsId . '&'
+         . 'zpid='      . $zpid . '&'
+         . 'count='     . $count
+         ;
+    
+    return $this->fetch($url, 'Pillow\Comps');
+  }
+  
+  /**
+   * Uses httpClient to fetch results and map to and object of type $className
+   * 
+   * @param string $url
+   * @param string $className
+   * @return obj
+   */
   private function fetch($url, $className) {
     $key = sha1($url);
     

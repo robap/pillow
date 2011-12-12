@@ -8,13 +8,10 @@
 namespace Pillow;
 
 use \SimpleXMLElement;
-use \SplObjectStorage;
-use \Iterator;
-use \ArrayAccess;
-use \Exception;
 
-class SearchResults extends ResultSet
+class Comps extends ResultSet
 {
+  
   /**
    *
    * @return Property 
@@ -31,17 +28,17 @@ class SearchResults extends ResultSet
   
   /**
    *
-   * @param SimpleXMLElement $xml 
+   * @param SimpleXMLElement $xml
    * @param Service $service
-   * @return SearchResults
+   * @return Comps
    */
   public static function createFromXml($xml, $service) {
-    $results = new SearchResults();
+    $comps = new Comps;
     
-    foreach($xml->xpath('//response/results/result') as $xmlResult) {
-      $results[] = Property::createFromXml($xmlResult, $service);
+    foreach($xml->xpath('//response/properties/comparables/comp') as $xmlResult) {
+      $comps[] = Property::createFromXml($xmlResult, $service);
     }
     
-    return $results;
+    return $comps;
   }
 }
