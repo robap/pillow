@@ -76,13 +76,14 @@ class SearchResults implements Iterator, ArrayAccess
   /**
    *
    * @param SimpleXMLElement $xml 
+   * @param Service $service
    * @return SearchResults
    */
-  public static function createFromXml($xml) {
+  public static function createFromXml($xml, $service) {
     $results = new SearchResults();
     
     foreach($xml->xpath('//response/results') as $xmlResult) {
-      $results->properties[] = Property::createFromXml($xmlResult);
+      $results->properties[] = Property::createFromXml($xmlResult, $service);
     }
     
     return $results;

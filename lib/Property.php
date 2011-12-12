@@ -9,9 +9,6 @@ namespace Pillow;
 
 class Property
 {
-  const CHART_UNIT_DOLLAR = 'dollar';
-  const CHART_UNIT_PERCENT = 'percent';
-
   /**
    * zpid
    * @var string $zpid
@@ -122,10 +119,17 @@ class Property
   
   /**
    *
+   * @var Chart
+   */
+  public $chart;
+  
+  /**
+   *
    * @param SimpleXMLElement $xml
+   * @param Service $service
    * @return Property 
    */
-  public static function createFromXml($xml) {
+  public static function createFromXml($xml, $service) {
     $prop = new Property();
     
     $prop->zpid = Xml::xstring($xml, '//result/zpid');
@@ -137,6 +141,14 @@ class Property
     $prop->longitude = Xml::xstring($xml, '//result/address/longitude');
     $prop->links = Links::createFromXml($xml);
     $prop->zestimate = Zestimate::createFromXml($xml);
+    
+    $prop->chart = new Proxy($service, 'getChart', array(
+        $prop->zpid, 
+        Chart::getDefaultWidth(), 
+        Chart::getDefaultHeight(), 
+        Chart::getDefaultUnitType(), 
+        Chart::getDefaultDuration()
+    ));
     
     return $prop;
   }

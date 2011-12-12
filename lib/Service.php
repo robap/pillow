@@ -39,11 +39,24 @@ class Service
    */
   public function getSearchResults($address, $cityStateZip) {
     $url = '/webservice/GetSearchResults.htm?'
-         . 'zws-id='       . $this->zwsId        . '&'
+         . 'zws-id='       . $this->zwsId . '&'
          . 'address='      . urlencode( $address ) . '&'
          . 'citystatezip=' . urlencode( $cityStateZip );
     
     $xml = $this->httpClient->get($url);
-    return SearchResults::createFromXml($xml);
+    return SearchResults::createFromXml($xml, $this);
+  }
+  
+  public function getChart($zpid, $width, $height, $unitType, $chartDuration) {
+    $url = '/webservice/GetChart.htm?'
+         . 'zws-id='       . $this->zwsId . '&'
+         . 'zpid='           . $zpid . '&'
+         . 'unit-type='      . $unitType . '&'
+         . 'width='          . $width . '&'
+         . 'height='         . $height . '&'
+         . 'chartDuration='  . $chartDuration;
+    
+    $xml = $this->httpClient->get($url);
+    return Chart::createFromXml($xml, $this);
   }
 }

@@ -20,3 +20,4 @@ echo "zestimate : " . $property->zestimate->amount . PHP_EOL;
 echo "updated   : " . $property->zestimate->lastUpdated . PHP_EOL;
 echo "low       : " . $property->zestimate->range->low . PHP_EOL;
 echo "high      : " . $property->zestimate->range->high . PHP_EOL;
+echo "chart url : " . $property->chart->url . PHP_EOL;
