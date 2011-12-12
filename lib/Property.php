@@ -145,8 +145,8 @@ class Property
     $prop->state = Xml::xstring($xml, './/address/state');
     $prop->latitude = Xml::xstring($xml, './/address/latitude');
     $prop->longitude = Xml::xstring($xml, './/address/longitude');
-    $prop->links = Links::createFromXml($xml);
-    $prop->zestimate = Zestimate::createFromXml($xml);
+    $prop->links = Links::createFromXml($xml->xpath('.//links'));
+    $prop->zestimate = Zestimate::createFromXml($xml->xpath('.//zestimate'));
     
     $prop->chart = new Proxy($service, 'getChart', array(
         $prop->zpid, 

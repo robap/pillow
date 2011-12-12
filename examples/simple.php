@@ -4,7 +4,6 @@ include __DIR__ . '/../lib/Autoloader.php';
 include __DIR__ . '/config.php';
 
 use Pillow\Service;
-use Pillow\HttpClient;
 
 $s = new Service($zpid);
 $results = $s->getSearchResults('2114 Bigelow Ave', '98109');

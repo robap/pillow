@@ -27,11 +27,17 @@ class Links
   public static function createFromXml($xml) {
     $links = new Links;
     
-    $links->homedetails = Xml::xstring($xml, './/links/homedetails');
-    $links->graphsanddata = Xml::xstring($xml, './/links/graphsanddata');
-    $links->mapthishome = Xml::xstring($xml, './/links/mapthishome');
-    $links->myestimator = Xml::xstring($xml, './/links/myestimator');
-    $links->comparables = Xml::xstring($xml, './/links/comparables');
+    if(is_array($xml) && count($xml) > 0) {
+      $xml = $xml[0];
+    }
+    
+    if($xml) {
+      $links->homedetails = Xml::xstring($xml, './/homedetails');
+      $links->graphsanddata = Xml::xstring($xml, './/graphsanddata');
+      $links->mapthishome = Xml::xstring($xml, './/mapthishome');
+      $links->myestimator = Xml::xstring($xml, './/myestimator');
+      $links->comparables = Xml::xstring($xml, './/comparables');
+    }
     
     return $links;
   }
