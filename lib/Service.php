@@ -23,12 +23,19 @@ class Service
   
   /**
    *
+   * @var array[string]string
+   */
+  private $cache;
+  
+  /**
+   *
    * @param string $zwsId
    * @param HttpClient $opt_httpClient 
    */
   public function __construct($zwsId, $opt_httpClient = null) {
     $this->zwsId = $zwsId;
     $this->httpClient = ($opt_httpClient) ? $opt_httpClient : new HttpClient();
+    $this->cache = array();
   }
   
   /**
@@ -43,10 +50,18 @@ class Service
          . 'address='      . urlencode( $address ) . '&'
          . 'citystatezip=' . urlencode( $cityStateZip );
     
-    $xml = $this->httpClient->get($url);
-    return SearchResults::createFromXml($xml, $this);
+    return $this->fetch($url, 'Pillow\SearchResults');
   }
   
+  /**
+   *
+   * @param string $zpid
+   * @param number $width
+   * @param number $height
+   * @param string $unitType
+   * @param string $chartDuration
+   * @return Chart 
+   */
   public function getChart($zpid, $width, $height, $unitType, $chartDuration) {
     $url = '/webservice/GetChart.htm?'
          . 'zws-id='       . $this->zwsId . '&'
@@ -56,7 +71,18 @@ class Service
          . 'height='         . $height . '&'
          . 'chartDuration='  . $chartDuration;
     
-    $xml = $this->httpClient->get($url);
-    return Chart::createFromXml($xml, $this);
+    return $this->fetch($url, 'Pillow\Chart');
+  }
+  
+  private function fetch($url, $className) {
+    $key = sha1($url);
+    
+    if(! isset($this->cache[$key])) {
+      $xml = $this->httpClient->get($url);
+      $this->cache[$key] = call_user_func_array(
+              array($className, 'createFromXml'), array($xml, $this));
+    }
+    
+    return $this->cache[$key];
   }
 }
