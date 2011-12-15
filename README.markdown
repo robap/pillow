@@ -1,5 +1,9 @@
 # Pillow - Zillow PHP client
 
+End of Life Notice:
+This library will be taken down on or after 02/01/2012.
+It is being replaced by https://github.com/VerticalTab/Pillow
+
 This library provides a PHP interface for the Zillow API
 (see: http://www.zillow.com/howto/api/APIOverview.htm)
 
